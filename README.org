@@ -1,1 +1,2 @@
 * Nix config dump
+Configurations dumped from my [[https://github.com/tuxikus/nix-config][nix-config]] in a GNU stow hierarchy. 
