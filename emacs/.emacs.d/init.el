@@ -7,16 +7,11 @@
   ("C-c e r" . eval-region)
   ("C-c e b" . eval-buffer)
   ("C-c w m" . whitespace-mode)
+  ("C-x c" . compile)
+  ("C-S-a" . beginning-of-buffer)
+  ("C-S-e" . end-of-buffer)
 
   :init
-  (setq create-lockfiles nil
-      	make-backup-files nil
-      	custom-theme-directory "~/.emacs.d/themes"
-      	inhibit-startup-message t
-      	inhibit-startup-screen t
-      	initial-scratch-message ";;; Emacs is fun"
-      	global-auto-revert-non-file-buffers t)
-  
   (fset 'yes-or-no-p 'y-or-n-p)
   (auto-save-mode -1)
   (tool-bar-mode -1)
@@ -50,6 +45,15 @@
       	'(read-only t cursor-intangible t face minibuffer-prompt))
   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
   :config
+  (setq create-lockfiles nil
+	make-backup-files nil
+	custom-theme-directory "~/.emacs.d/themes"
+	inhibit-startup-message t
+	inhibit-startup-screen t
+	initial-scratch-message ";;; Emacs is fun"
+	global-auto-revert-non-file-buffers t
+	org-id-uuid-program "~/.local/bin/uuidgenlc")
+
   (add-to-list 'default-frame-alist
                '(font . "Iosevka Nerd Font-15"))
   (which-key-mode 1)
@@ -68,6 +72,20 @@
   ;; commands are hidden, since they are not used via M-x. This setting is
   ;; useful beyond Corfu.
   (read-extended-command-predicate #'command-completion-default-include-p))
+
+(use-package aas
+  :defer t
+  :hook (LaTeX-mode . aas-activate-for-major-mode)
+  :hook (org-mode . aas-activate-for-major-mode)
+  :config
+  (aas-set-snippets 'text-mode
+    ;; expand unconditionally
+    "oe" "ö"
+    "Oe" "Ö"
+    "ue" "ü"
+    "Ue" "Ü"
+    "ae" "ä"
+    "Ae" "Ä"))
 
 (use-package ace-window
   :defer t
@@ -198,6 +216,10 @@
   :config
   (direnv-mode))
 
+(use-package pdf-tools
+  :init
+  (pdf-tools-install))
+
 (defcustom container-executable 'podman
   "The executable to be used with docker mode."
   :type '(choice
@@ -231,15 +253,12 @@
 (use-package doom-themes)
 
 (use-package eglot
-  :hook
-  ((python-ts-mode . eglot-ensure)
-   (python-mode . eglot-ensure))
-  :config
+  ;; :hook
+  ;; ((python-ts-mode . eglot-ensure)
+  ;;  (python-mode . eglot-ensure))
   :custom
   (eglot-autoshutdown t)
   (eglot-confirm-server-initiated-edits nil))
-
-
 
 (use-package electric
   :defer t

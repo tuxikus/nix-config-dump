@@ -1,2 +1,3 @@
 default_mode "locked"
 theme "catppuccin-latte"
+default_shell "bash"
