@@ -12,11 +12,11 @@
 "Go through the search engines above and make-search-engine out of them."
   ((search-engines
     (append %slot-default%
-	    (mapcar
-	     (lambda (engine) (apply 'make-search-engine engine))
-	     *my-search-engines*)))))
+          (mapcar
+           (lambda (engine) (apply 'make-search-engine engine))
+           *my-search-engines*)))))
 
 ;; blocker mode
 (define-configuration web-buffer
     ((default-modes
-	 (pushnew 'nyxt/mode/blocker:blocker-mode %slot-value%))))
+       (pushnew 'nyxt/mode/blocker:blocker-mode %slot-value%))))
